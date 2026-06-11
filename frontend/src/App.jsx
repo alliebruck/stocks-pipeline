@@ -37,8 +37,9 @@ function App() {
     <main className="page">
       <section className="card">
         <h1>Top Stock Movers</h1>
+        <hr></hr>
         <p className="subtitle">
-          Daily stock analytics dashboard powered by AWS Lambda, DynamoDB, and API Gateway.
+          Daily stock analytics dashboard powered by AWS.
         </p>
 
         {loading && <p>Loading movers...</p>}
