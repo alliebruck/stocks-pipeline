@@ -7,11 +7,28 @@ from urllib.request import urlopen
 from urllib.error import HTTPError, URLError
 
 import boto3
+from botocore.exceptions import ClientError
 
 
 WATCHLIST = ["AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "NVDA"]
 TABLE_NAME = os.getenv("TABLE_NAME", "top-movers")
-API_KEY = os.getenv("STOCK_API_KEY")
+API_KEY = None
+
+def get_api_key():
+    secret_name = os.getenv("STOCK_API_SECRET_NAME")
+
+    if not secret_name:
+        raise ValueError("Missing STOCK_API_SECRET_NAME environment variable")
+
+    client = boto3.client("secretsmanager")
+
+    try:
+        response = client.get_secret_value(SecretId=secret_name)
+        secret = json.loads(response["SecretString"])
+        return secret["STOCK_API_KEY"]
+    except ClientError as error:
+        print(f"Unable to retrieve API key from Secrets Manager: {error}")
+        raise
 
 def get_market_date():
     today = date.today()
@@ -74,9 +91,9 @@ def save_to_dynamodb(result):
 
 
 def lambda_handler(event, context):
-    if not API_KEY:
-        raise ValueError("Missing STOCK_API_KEY environment variable")
-
+    global API_KEY
+    API_KEY = get_api_key()
+    
     stocks = []
 
     for ticker in WATCHLIST:
