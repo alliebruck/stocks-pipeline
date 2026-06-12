@@ -75,7 +75,7 @@ class InfraStack(Stack):
             "DailyStockIngestionRule",
             schedule=events.Schedule.cron(
                 minute="0",
-                hour="22",
+                hour="8",
             ),
         )
 
