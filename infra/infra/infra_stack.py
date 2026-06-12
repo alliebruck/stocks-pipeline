@@ -8,6 +8,7 @@ from aws_cdk import (
     aws_apigateway as apigateway,
     aws_events as events,
     aws_events_targets as targets,
+    aws_secretsmanager as secretsmanager,
 )
 
 from constructs import Construct
@@ -47,12 +48,10 @@ class InfraStack(Stack):
             rest_api_name="Top Movers Service",
         )
 
-        stock_api_key = CfnParameter(
+        stock_api_secret = secretsmanager.Secret.from_secret_name_v2(
             self,
-            "StockApiKey",
-            type="String",
-            no_echo=True,
-            description="Polygon stock API key used by the ingestion Lambda.",
+            "StockApiKeySecret",
+            "stock-api-key",
         )
 
         ingestion_lambda = _lambda.Function(
@@ -63,10 +62,12 @@ class InfraStack(Stack):
             code=_lambda.Code.from_asset("../backend/ingestion"),
             timeout=Duration.minutes(3),
             environment={
-                "TABLE_NAME": movers_table.table_name,
-                "STOCK_API_KEY": stock_api_key.value_as_string,
+                "TABLE_NAME": "top-movers",
+                "STOCK_API_SECRET_NAME": "stock-api-key",
             },
         )
+
+        stock_api_secret.grant_read(ingestion_lambda)
 
         movers_table.grant_write_data(ingestion_lambda)
 
