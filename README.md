@@ -1,6 +1,6 @@
-# Top Stock Movers
+# Serverless Stock Analytics Dashboard
 
-A serverless stock analytics dashboard built with AWS and React that automatically tracks the daily largest stock movement across a predefined watchlist and displays the last seven trading days of results.
+A serverless stock analytics dashboard built with React, Python, and AWS that automatically ingests market data, stores historical results, and visualizes the last seven trading days through an interactive web interface.
 
 <h2>Dashboard Preview</h2>
 
@@ -10,32 +10,43 @@ A serverless stock analytics dashboard built with AWS and React that automatical
 
 <img src="screenshots/architecture.png" alt="Architecture Diagram" width="500">
 
+The application uses a serverless architecture where EventBridge triggers a scheduled ingestion Lambda to retrieve stock data securely using AWS Secrets Manager. Results are stored in DynamoDB and served through API Gateway and a separate API Lambda to the React frontend hosted on AWS Amplify.
+
 ## Features
 
 - Automatically identifies the stock with the largest daily percentage change from a watchlist.
 - Stores historical results in Amazon DynamoDB.
+- Automated daily data ingestion using Amazon EventBridge and AWS Lambda.
 - Displays the last seven trading days in an interactive React dashboard.
 - Includes a trend visualization with a line chart.
 - Highlights the biggest move and most frequent mover over the displayed period.
-- Automatically updates through a scheduled EventBridge rule.
+- Secure API key management with AWS Secrets Manager.
 - Hosted as a static web application using AWS Amplify.
+- Automated infrastructure deployment using GitHub Actions and AWS CDK.
 
 ## Tech Stack
 
-- Frontend: React + Vite
-- Backend: AWS Lambda (Python)
-- Database: Amazon DynamoDB
-- API: Amazon API Gateway
-- Scheduling: Amazon EventBridge
-- Infrastructure as Code: AWS CDK
-- Hosting: AWS Amplify
+- React + Vite
+- Python
+- AWS Lambda
+- Amazon API Gateway
+- Amazon DynamoDB
+- Amazon EventBridge
+- AWS Secrets Manager
+- AWS Amplify
+- AWS CDK
+- GitHub Actions
+
+## CI/CD
+
+This project uses GitHub Actions to automate backend infrastructure deployments. Changes to the infrastructure or backend code trigger a workflow that installs dependencies, synthesizes the AWS CDK application, and deploys updates automatically.
 
 ## Security
 
-- API credentials are securely stored in AWS Secrets Manager.
-- The ingestion Lambda retrieves secrets at runtime using IAM permissions instead of hardcoded values.
-- API responses include appropriate HTTP status codes and cache-control headers.
-- Sensitive credentials are excluded from source control.
+- API credentials are stored securely in AWS Secrets Manager.
+- Secrets are retrieved at runtime by the ingestion Lambda using IAM permissions.
+- Sensitive credentials are not committed to source control.
+- API responses include appropriate HTTP headers and cache directives.
 
 ## Project Structure
 
