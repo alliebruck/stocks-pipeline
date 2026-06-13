@@ -1,17 +1,14 @@
 # Top Stock Movers
 
 A serverless stock analytics dashboard built with AWS and React that automatically tracks the daily largest stock movement across a predefined watchlist and displays the last seven trading days of results.
-<<<<<<< HEAD
 
-## Dashboard Preview
+<h2>Dashboard Preview</h2>
 
-![Dashboard](<Dashboard.png>)
+<img src="screenshots/Dashboard.png" alt="Dashboard Preview" width="800">
 
-## System Architecture
+<h2>System Architecture</h2>
 
-![Architecture](<architecture.png>)
-=======
->>>>>>> 22e91fbe2cda0b4b720c4569fcd26cab6a8d4197
+<img src="screenshots/architecture.png" alt="Architecture Diagram" width="500">
 
 ## Features
 
@@ -23,11 +20,7 @@ A serverless stock analytics dashboard built with AWS and React that automatical
 - Automatically updates through a scheduled EventBridge rule.
 - Hosted as a static web application using AWS Amplify.
 
-<<<<<<< HEAD
 ## Tech Stack
-=======
-## Architecture
->>>>>>> 22e91fbe2cda0b4b720c4569fcd26cab6a8d4197
 
 - Frontend: React + Vite
 - Backend: AWS Lambda (Python)
@@ -86,8 +79,5 @@ The dashboard provides:
 
 - GitHub Actions CI/CD for automated backend deployments.
 - Additional analytics and historical filtering.
-<<<<<<< HEAD
 - Expanded watchlists and configurable tracking.
-=======
-- Expanded watchlists and configurable tracking.
->>>>>>> 22e91fbe2cda0b4b720c4569fcd26cab6a8d4197
+
