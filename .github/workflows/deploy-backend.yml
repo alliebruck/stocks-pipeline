@@ -3,7 +3,7 @@ name: Deploy Backend Infrastructure
 on:
   push:
     branches:
-      - ci-cd-experiment
+      - main
     paths:
       - "backend/**"
       - "infra/**"
